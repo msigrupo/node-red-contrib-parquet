@@ -1,0 +1,8 @@
+{
+    "name": "Name",
+    "filename": "Filename",
+    "output": "Output",
+    "columns": "Columns",
+    "outputPty": "Property",
+	"category": "parser"
+}

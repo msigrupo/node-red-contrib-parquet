@@ -1,0 +1,69 @@
+<script type="text/javascript">
+    RED.nodes.registerType('Read Parquet',{
+        category: RED._("node-red-contrib-parquet/read_parquet:category"),
+        color: '#C0DEED',
+        defaults: {
+            name: {value:""},
+            filename: {value:""},
+            output: {value:"single"},
+            columns: {value:""},
+            outputPty: {value:"payload", validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('outputPtyType'):function(v) { return true})},
+            outputPtyType: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-file-text",
+		peletteLabel: 'Read Parquet',
+        label: function() {
+            return this.name||"Read Parquet";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+		oneditprepare: function() {
+            $("#node-input-outputPty").typedInput({
+				default: 'msg',
+                types: ['msg'],
+                typeField: $("#node-input-outputPtyType")
+			});
+		},
+		oneditsave: function() {
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="Read Parquet">
+    <!--Name-->
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="name"></span></label>
+		<input type="text" id="node-input-name">
+	</div>
+
+    <!--Filename-->
+	<div class="form-row">
+		<label for="node-input-filename"><i class="fa fa-file"></i> <span data-i18n="filename"></span></label>
+		<input type="text" id="node-input-filename">
+	</div>
+
+    <!--Columns-->
+	<div class="form-row">
+		<label for="node-input-columns"><i class="fa fa-list"></i> <span data-i18n="columns"></span></label>
+		<input type="text" id="node-input-columns" placeholder="comma-separated column names">
+	</div>
+
+    <!--Output-->
+	<div class="form-row">
+		<label for="node-input-output"><i class="fa fa-sign-in"></i> <span data-i18n="output"></span></label>
+		<select id="node-input-output">
+			<option value="multiple">a message per row</option>
+			<option value="single">a single message [array]</option>
+		</select>
+	</div>
+
+    <!--Output Pty-->
+	<div class="form-row">
+		<label for="node-input-outputPty"><i class="fa fa-ellipsis-h"></i> <span data-i18n="outputPty"></span></label>
+		<input type="text" id="node-input-outputPty">
+        <input type="hidden" id="node-input-outputPtyType">
+	</div>
+</script>
