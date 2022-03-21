@@ -9,7 +9,8 @@
     "node-red": {
         "version": ">=2.0.0",
         "nodes": {
-            "read_parquet": "nodes/read_parquet.js"
+            "read_parquet": "nodes/read_parquet.js",
+            "write_parquet": "nodes/write_parquet.js"
         }
     },
     "dependencies": {

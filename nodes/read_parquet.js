@@ -30,7 +30,6 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
 			if (msg.filename != undefined) filename = msg.filename;
 			if (msg.output != undefined) output = msg.output;
-			if (msg.columns != undefined) columns = msg.columns.split(',');
 
 			openFile();
 			readFile(msg);
@@ -46,30 +45,34 @@ module.exports = function(RED) {
 		}
 
 		async function readFile(msg) {
-			// create new ParquetReader that reads from parquet file
-			await openFile();
-
-			//Get file rows
-			let rowCount = reader.getRowCount().toString();
-
-			// create a new cursor
-			let cursor = reader.getCursor(columns);
-
-			// read all records from the file and print them
-			let record = null;
-			let currentRow = 1;
-			let msgRecords = [];
-			while (record = await cursor.next()) {
-				if (output == 'single') msgRecords.push(record);
-				else if (output == 'multiple') NodeSend(msg, record);
-
-				node.status({fill:"green",shape:"dot",text:currentRow + "/" + rowCount});
-				currentRow += 1;
+			try {
+				// create new ParquetReader that reads from parquet file
+				await openFile();
+	
+				//Get file rows
+				let rowCount = reader.getRowCount().toString();
+	
+				// create a new cursor
+				let cursor = reader.getCursor(columns);
+	
+				// read all records from the file and print them
+				let record = null;
+				let currentRow = 1;
+				let msgRecords = [];
+				while (record = await cursor.next()) {
+					if (output == 'single') msgRecords.push(record);
+					else if (output == 'multiple') NodeSend(msg, record);
+	
+					node.status({fill:"green",shape:"dot",text:currentRow + "/" + rowCount});
+					currentRow += 1;
+				}
+	
+				if (output == 'single') NodeSend(msg, msgRecords);
+	
+				closeFile();				
+			} catch (error) {
+				node.error(error);
 			}
-
-			if (output == 'single') NodeSend(msg, msgRecords);
-
-			closeFile();
 		}
 
 		function NodeSend(msg, records) {
@@ -78,20 +81,27 @@ module.exports = function(RED) {
 			var splitFirstLevel = splitOutput.shift();
 			let strres = RecursiveOuputSplit(records, splitOutput, "");
 
-			msg[splitFirstLevel] = JSON.parse(strres);
-			node.send(msg);
+			let msgSend = JSON.parse(JSON.stringify(msg));
+			msgSend[splitFirstLevel] = JSON.parse(strres);
+			
+			node.send(msgSend);
 		}
 
 		function RecursiveOuputSplit(records, outputTxtSplit, txtRecursive) {
 			if (outputTxtSplit.length == 0) {
+				//Check if ouputPty has more than one level
+				let hasLevel = false;
+				if (outputPty.split('.').length > 1) hasLevel = true;
+				
 				txtRecursive = txtRecursive + JSON.stringify(records);
-				txtRecursive = '{' + txtRecursive;
+				if (hasLevel) txtRecursive = '{' + txtRecursive;
+				
 				return txtRecursive;
 			}   
 			else {  
-				var eliminado = outputTxtSplit.shift();
-				if (outputTxtSplit.length == 0) txtRecursive = txtRecursive +'"'+eliminado+'"' + ':';
-				else txtRecursive = txtRecursive +'"'+eliminado+'"' + ': {';
+				var deleted = outputTxtSplit.shift();
+				if (outputTxtSplit.length == 0) txtRecursive = txtRecursive +'"'+deleted+'"' + ':';
+				else txtRecursive = txtRecursive +'"'+deleted+'"' + ': {';
 				
 				txtRecursive = RecursiveOuputSplit(records, outputTxtSplit, txtRecursive);
 				txtRecursive = txtRecursive + '}';

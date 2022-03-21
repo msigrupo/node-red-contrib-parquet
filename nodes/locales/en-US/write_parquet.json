@@ -1,0 +1,15 @@
+{
+    "label": {
+        "name": "Name",
+        "filename": "Filename",
+        "encoding": "Encoding",
+        "columns": "Columns",
+        "column": "column",
+        "type": "Type"
+    },
+    "action": {
+        "append": "append to file",
+        "overwrite": "overwrite file"
+    },
+	"category": "parser"
+}
