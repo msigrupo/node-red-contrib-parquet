@@ -1,0 +1,57 @@
+[
+    {
+        "id": "e76252c371e7c2b0",
+        "type": "tab",
+        "label": "WriteParquet",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2e77766bf510b4b6",
+        "type": "inject",
+        "z": "e76252c371e7c2b0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"column1\":\"val1\",\"column2\":2},{\"column1\":\"val3\",\"column2\":4}]",
+        "payloadType": "json",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "6e34b6dcf0b69ec9"
+            ]
+        ]
+    },
+    {
+        "id": "6e34b6dcf0b69ec9",
+        "type": "Write Parquet",
+        "z": "e76252c371e7c2b0",
+        "name": "",
+        "filename": "files/writeParquet.parquet",
+        "columns": [
+            {
+                "column": "column1",
+                "type": "UTF8"
+            },
+            {
+                "column": "column2",
+                "type": "INT32"
+            }
+        ],
+        "x": 340,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    }
+]

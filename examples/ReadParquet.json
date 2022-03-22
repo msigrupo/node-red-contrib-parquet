@@ -1,0 +1,136 @@
+[
+    {
+        "id": "b74d5cf531251d72",
+        "type": "tab",
+        "label": "ReadParquet",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a1801a0f04cffdf3",
+        "type": "inject",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "e7647a9858ced961"
+            ]
+        ]
+    },
+    {
+        "id": "80840d14ea4a2d85",
+        "type": "debug",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e7647a9858ced961",
+        "type": "Read Parquet",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "filename": "files/writeParquet.parquet",
+        "output": "multiple",
+        "columns": "",
+        "outputPty": "payload",
+        "outputPtyType": "msg",
+        "x": 300,
+        "y": 80,
+        "wires": [
+            [
+                "80840d14ea4a2d85"
+            ]
+        ]
+    },
+    {
+        "id": "8d1f6178b3c36390",
+        "type": "inject",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "b03213bda0fdb736"
+            ]
+        ]
+    },
+    {
+        "id": "04b81cf0869e5fb2",
+        "type": "debug",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "b03213bda0fdb736",
+        "type": "Read Parquet",
+        "z": "b74d5cf531251d72",
+        "name": "",
+        "filename": "files/writeParquet.parquet",
+        "output": "single",
+        "columns": "column1",
+        "outputPty": "payload",
+        "outputPtyType": "msg",
+        "x": 300,
+        "y": 140,
+        "wires": [
+            [
+                "04b81cf0869e5fb2"
+            ]
+        ]
+    }
+]

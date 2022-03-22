@@ -1,10 +1,18 @@
 {
-    "name": "node-red-contrib-parquet",
-    "version": "0.0.1",
-    "description": "Parquet",
+    "name": "@msigrupo/node-red-contrib-parquet",
+    "version": "1.0.0",
+    "description": "Read and write parquet files",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/msigrupo/node-red-contrib-parquet.git"
+    },
+    "bugs": {
+        "url": "https://github.com/msigrupo/node-red-contrib-parquet/issues"
+    },
     "author": {
         "name": "MSI"
     },
+    "keywords": [ "node-red", "parquet" ],
     "license": "MIT",
     "node-red": {
         "version": ">=2.0.0",
@@ -12,6 +20,9 @@
             "read_parquet": "nodes/read_parquet.js",
             "write_parquet": "nodes/write_parquet.js"
         }
+    },
+    "engines": {
+        "node": ">=12.0.0"
     },
     "dependencies": {
         "parquetjs-lite": "^0.8.7"
