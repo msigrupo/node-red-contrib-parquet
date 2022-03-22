@@ -1,6 +1,6 @@
 <script type="text/javascript">
     RED.nodes.registerType('Write Parquet',{
-        category: RED._("@msigrupo/node-red-contrib-parquet/write_parquet:category"),
+        category: RED._("@msigrupo-develop/node-red-contrib-parquet/write_parquet:category"),
         color: '#DEBD5C',
         defaults: {
             name: {value:""},
@@ -26,7 +26,7 @@
 
                 $('<i style="color:#eee; cursor:move; margin-left:3px;" class="node-input-table-handle fa fa-bars"></i>').appendTo(row);
 
-                var columnField = $('<input/>',{class:"node-input-table-column",type:"text",style:"margin-left:7px; width:calc(50% - 32px);", placeholder: RED._("@msigrupo/node-red-contrib-parquet/write_parquet:label.name"),value:column.column}).appendTo(row);
+                var columnField = $('<input/>',{class:"node-input-table-column",type:"text",style:"margin-left:7px; width:calc(50% - 32px);", placeholder: RED._("@msigrupo-develop/node-red-contrib-parquet/write_parquet:label.name"),value:column.column}).appendTo(row);
                 var typeField = $('<select/>',{class:"node-input-table-type",type:"text",style:"margin-left:7px; width:calc(50% - 32px);"}).appendTo(row);
                 var arr = [
                     {val : "UTF8", text: "UTF8"},

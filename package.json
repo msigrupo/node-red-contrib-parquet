@@ -1,5 +1,5 @@
 {
-    "name": "@msigrupo/node-red-contrib-parquet",
+    "name": "@msigrupo-develop/node-red-contrib-parquet",
     "version": "1.0.0",
     "description": "Read and write parquet format files",
     "repository": {
