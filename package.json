@@ -1,7 +1,7 @@
 {
     "name": "@msigrupo/node-red-contrib-parquet",
     "version": "1.0.0",
-    "description": "Read and write parquet files",
+    "description": "Read and write parquet format files",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/msigrupo/node-red-contrib-parquet.git"
