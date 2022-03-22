@@ -35,6 +35,6 @@ En el nodo Read Parquet se puede configurar para que devuelva un mensaje por lí
 
 [1]:http://nodered.org
 [2]:https://www.npmjs.com/package/parquetjs-lite
-[3]:https://github.com/msigrupo/node-red-contrib-parquet/examples/WriteParquet.json
-[4]:https://github.com/msigrupo/node-red-contrib-parquet/examples/ReadParquet.json
-[5]:https://github.com/msigrupo/node-red-contrib-parquet/LICENCE
+[3]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/examples/WriteParquet.json
+[4]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/examples/ReadParquet.json
+[5]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/LICENCE
