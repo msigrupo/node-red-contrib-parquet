@@ -1,6 +1,6 @@
 {
     "name": "@msigrupo-develop/node-red-contrib-parquet",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Read and write parquet format files",
     "repository": {
         "type": "git",
@@ -12,7 +12,10 @@
     "author": {
         "name": "MSI"
     },
-    "keywords": [ "node-red", "parquet" ],
+    "keywords": [
+        "node-red",
+        "parquet"
+    ],
     "license": "MIT",
     "node-red": {
         "version": ">=2.0.0",
