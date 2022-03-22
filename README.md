@@ -3,7 +3,7 @@ Nodo de [Node-RED][1] que lee y genera ficheros con formato parquet.
 
 
 ### Instalación
-Puede instalar desde la paleta de Node-RED buscando `node-red-contrib-parquet`, o bien ejecutando el comando en el directorio de instalación de Node-RED.
+Puede instalar desde la paleta de Node-RED, o bien ejecutando el comando en el directorio de instalación de Node-RED.
 ```sh
 npm install @msigrupo-develop/node-red-contrib-parquet
 ```
