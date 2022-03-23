@@ -4,17 +4,13 @@
 
     <h3>Input</h3>
 		<dl class="message-properties">
-			<dt>payload
-				<span class="property-type">string | buffer</span>
-			</dt>
-			<dd> the payload of the message to publish. </dd>
 			<dt class="optional">filename <span class="property-type">string</span></dt>
 			<dd> file path from Node-Red execution path</dd>
 			<dt class="optional">output <span class="property-type">string</span></dt>
 			<dd> way in which the messages will be sent, one message per read line or one message per file.
 				<ul>
-					<li> <b>single</b> : One message per line</li>
-					<li> <b>multiple</b> : One message per file</li>
+					<li> <b>multiple</b> : A message per row</li>
+					<li> <b>single</b> : A single message [array]</li>
 				</ul>
 			</dd>
 		</dl>
@@ -34,4 +30,7 @@
 				</dl>
 			</li>
 		</ol>
+
+	<h3>Details</h3>
+	<p>If you leave the columns blank, it will read all the columns from the file. If you write something to the columns, it will read and return the indicated columns.</p>
 </script>
