@@ -1,0 +1,198 @@
+<script type="text/javascript">
+    RED.nodes.registerType('parquet',{
+        category: RED._("@msigrupo-develop/node-red-contrib-parquet/file_parquet:category"),
+        color: '#DEBD5C',
+        defaults: {
+            name: {value:""},
+            option: {value:"read"},
+            columns: {value:[{column: '', type: ''}]},//write
+            rcolumns: {value:""},//read
+            multi: {value:"multiple"},//read
+            outputPty: {value:"payload", validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('outputPtyType'):function(v) { return true})},//read
+            outputPtyType: {value:""},//read
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-file-text",
+		peletteLabel: 'parquet',
+        label: function() {
+            return this.name||"parquet";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+		oneditprepare: function() {
+            //Show and hide inputs depending on the selection of option
+			$('#node-input-option').on("change", function() {
+                if ($('#node-input-option').val() === "read") {
+                    $(".form-row-option-write").hide();
+					 $(".form-row-option-read").show();
+                }
+                else {
+                    $(".form-row-option-read").hide();
+					$(".form-row-option-write").show();
+                }
+            });
+
+            //Write columns
+            function generateTableRow(i, column) {
+                var container = $('<li/>',{style:"background: #fff; margin:0; padding:8px 0px 0px; border-bottom: 1px solid #ccc;"});
+                var row = $('<div/>').appendTo(container);
+                var row2 = $('<div/>',{style:"padding-top:5px; padding-left:175px;"}).appendTo(container);
+                var row3 = $('<div/>',{style:"padding-top:5px; padding-left:120px;"}).appendTo(container);
+
+                $('<i style="color:#eee; cursor:move; margin-left:3px;" class="node-input-table-handle fa fa-bars"></i>').appendTo(row);
+
+                var columnField = $('<input/>',{class:"node-input-table-column",type:"text",style:"margin-left:7px; width:calc(50% - 32px);", placeholder: RED._("@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.name"),value:column.column}).appendTo(row);
+                var typeField = $('<select/>',{class:"node-input-table-type",type:"text",style:"margin-left:7px; width:calc(50% - 32px);"}).appendTo(row);
+                var arr = [
+                    {val : "UTF8", text: "UTF8"},
+                    {val : "JSON", text: "JSON"},
+                    {val : "BSON", text: "BSON"},
+                    {val : "BYTE_ARRAY", text: "BYTE_ARRAY"},
+                    {val : "TIME_MILLIS", text: "TIME_MILLIS"},
+                    {val : "TIME_MICROS", text: "TIME_MICROS"},
+                    {val : "TIMESTAMP_MILLIS", text: "TIMESTAMP_MILLIS"},
+                    {val : "TIMESTAMP_MICROS", text: "TIMESTAMP_MICROS"},
+                    {val : "BOOLEAN", text: "BOOLEAN"},
+                    {val : "FLOAT", text: "FLOAT"},
+                    {val : "DOUBLE", text: "DOUBLE"},
+                    {val : "INT32", text: "INT32"},
+                    {val : "INT64", text: "INT64"},
+                    {val : "INT96", text: "INT96"},
+                    {val : "INT_8", text: "INT_8"},
+                    {val : "INT_16", text: "INT_16"},
+                    {val : "INT_32", text: "INT_32"},
+                    {val : "INT_64", text: "INT_64"},
+                    {val : "UINT_8", text: "UINT_8"},
+                    {val : "UINT_16", text: "UINT_16"},
+                    {val : "UINT_32", text: "UINT_32"},
+                    {val : "UINT_64", text: "UINT_64"}
+                ];
+
+                $(arr).each(function() {
+                    var isSelected= false;
+                    if (column.type == this.val) {
+                        isSelected = true;
+                    }
+                    typeField.append($("<option>").attr('value',this.val).text(this.text).prop('selected',isSelected));
+                });
+
+                var finalspan = $('<span/>',{style:"float:right; margin-right:8px;"}).appendTo(row);
+                var deleteButton = $('<a/>',{href:"#",class:"editor-button editor-button-small", style:"margin-top:7px; margin-left:5px;"}).appendTo(finalspan);
+                $('<i/>',{class:"fa fa-remove"}).appendTo(deleteButton);
+
+                deleteButton.click(function() {
+                    container.css({"background":"#fee"});
+                    container.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                });
+
+                $("#node-input-table-container").append(container);
+            }
+
+            for (var i=0; i<this.columns.length; i++) {
+                var column = this.columns[i];
+                generateTableRow(i+1,column);
+            }
+
+            $("#node-input-add-column").click(function() {
+                generateTableRow($("#node-input-table-container").children().length+1, {});
+                $("#node-input-table-container-div").scrollTop($("#node-input-table-container-div").get(0).scrollHeight);
+            });
+
+			$( "#node-input-table-container").sortable({
+                axis: "y",
+                handle:".node-input-table-handle",
+                cursor: "move"
+            });
+
+            //Read outputPty
+            $("#node-input-outputPty").typedInput({
+				default: 'msg',
+                types: ['msg'],
+                typeField: $("#node-input-outputPtyType")
+			});
+		},
+		oneditsave: function() {
+            var columns = $("#node-input-table-container").children();
+            console.log(columns);
+            var node = this;
+            node.columns = [];
+            columns.each(function(i) {
+                var column = $(this);
+                console.log("save", column.find(".node-input-table-type").val(), $("#node-input-encoding").val());
+                var o = {
+                    column: column.find(".node-input-table-column").val(),
+                    type: column.find(".node-input-table-type").val()
+                };
+                node.columns.push(o);
+            });
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="parquet">
+    <!--Name-->
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="label.name"></span></label>
+		<input type="text" id="node-input-name">
+	</div>
+
+    <!--Option-->
+    <div class="form-row">
+        <label for="node-input-option"><i class="fa fa-sign-in"></i> <span data-i18n="label.option.text"></span></label>
+        <select id="node-input-option">
+            <option value="read" data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.option.r"></option>
+            <option value="write" data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.option.w"></option>
+        </select>
+    </div>
+
+    <!-- Read -->
+    <div class="form-row-option-read">
+        <div class="form-row">
+            <label style="width:100%;"><span data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.p2o">PARQUET to Object options</span></label>
+        </div>
+    
+            <!--Columns-->
+            <div class="form-row" style="padding-left:20px;">
+                <label for="node-input-rcolumns"><i class="fa fa-list"></i> <span data-i18n="label.columns"></span></label>
+                <input type="text" id="node-input-rcolumns" placeholder="comma-separated column names">
+            </div>
+    
+            <!--Output-->
+            <div class="form-row" style="padding-left:20px;">
+                <label for="node-input-multi"><i class="fa fa-sign-out"></i> <span data-i18n="label.output.text"></span></label>
+                <select type="text" id="node-input-multi" style="width:250px;">
+                    <option value="multiple" data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.output.row">a message per row</option>
+                    <option value="single" data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.output.array">a single message [array]</option>
+                </select>
+            </div>
+    
+            <!--Output Pty-->
+            <div class="form-row" style="padding-left:20px;">
+                <label for="node-input-outputPty"><i class="fa fa-ellipsis-h"></i> <span data-i18n="label.outputPty"></span></label>
+                <input type="text" id="node-input-outputPty">
+                <input type="hidden" id="node-input-outputPtyType">
+            </div>
+    </div>
+    
+    <!-- Write -->
+    <div class="form-row-option-write">
+        <div class="form-row">
+            <label style="width:100%;"><span data-i18n="@msigrupo-develop/node-red-contrib-parquet/file_parquet:label.o2p">Object to PARQUET options</span></label>
+        </div>
+    
+            <!--Columns-->
+            <div class="form-row node-input-table-container-row" style="padding-left:20px; width: 100%">
+                <label for="node-input-width" style="vertical-align:top"><i class="fa fa-list"></i> <span data-i18n="label.columns"></span></label>
+                <div id="node-input-table-container-div" style="box-sizing:border-box; border-radius:5px; height:257px; padding:5px; border:1px solid #ccc; overflow-y:scroll; display:inline-block; width:calc(70% + 15px);">
+                    <ol id="node-input-table-container" style="list-style-type:none; margin:0;"></ol>
+                </div>
+            </div>
+            <div class="form-row" style="padding-left:20px;">
+                <a href="#" class="editor-button editor-button-small" id="node-input-add-column" style="margin-top:4px; margin-left:103px;"><i class="fa fa-plus"></i> <span data-i18n="label.column"></span></a>
+            </div>
+    </div>
+</script>

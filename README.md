@@ -1,40 +1,45 @@
 # node-red-contrib-parquet
-Nodo de [Node-RED][1] que lee y genera ficheros con formato parquet.
+Converts between a PARQUET string and its JavaScript object representation, in either direction.
 
-
-### Instalación
-Puede instalar desde la paleta de Node-RED, o bien ejecutando el comando en el directorio de instalación de Node-RED.
+### Installation
+It can be installed from the Node-RED palette, or by executing the following command in the Node-RED installation directory:
 ```sh
 npm install @msigrupo-develop/node-red-contrib-parquet
 ```
 
+### Dependencies
+This package depends on the following libraries:
+- [parquetjs-lite][1]
 
-### Dependencias
-Este paquete depende de las siguientes librerías:
-- [parquetjs-lite][2]
+### Usage
+Read or write mode must be selected.
 
+##### Read mode
+It will parse a single Buffer object from a parquet file to its JavaScript object representation. It is intended to be used together with the file reading node.
+- A single message per row
+- A single message [array]
 
-### Uso del nodo Write Parquet
-Utilice para la creación de ficheros de tipo parquet, indicando las columnas a crear.
-Puede ver [un ejemplo][3] preparado para usarse.
+By default, the output is sent to msg.payload bu it can be configured.
+An [example][2] is ready to use.
 
-##### Salidas
-Devuelve el mismo mensaje que se le ha pasado en la entrada.
+##### Write mode
+It will parse a JavaScript object to a Parqute single Buffer object. It is intended to be used together with the file writting node.
+The columns names and types to be processed from the input must be configured. The input must be an array of objects with the names and values of the columns.
+The output returns a single Buffer object in msg.payload.
+An [example][3] is ready to use.
 
+### Changelog
+Changes can be followed [here][4]
 
-### Uso del nodo Read Parquet
-Utilice para la lectura de ficheros de tipo parquet.
-Puede ver [un ejemplo][4] preparado para usarse.
+### Credits
+This project receives funding in the European Commission’s Horizon 2020 Research Programme under Grant Agreement Number 870062
 
-##### Salidas
-En el nodo Read Parquet se puede configurar para que devuelva un mensaje por línea, o bien un mensaje por fichero. La salida se debe configurar en el propio nodo.
-
-
-## Licencia
+### License
 [MIT][5]
 
-[1]:http://nodered.org
-[2]:https://www.npmjs.com/package/parquetjs-lite
+
+[1]:https://www.npmjs.com/package/parquetjs-lite
+[2]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/examples/ReadParquet.json
 [3]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/examples/WriteParquet.json
-[4]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/examples/ReadParquet.json
+[4]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/CHANGELOG.md
 [5]:https://github.com/msigrupo/node-red-contrib-parquet/blob/master/LICENCE

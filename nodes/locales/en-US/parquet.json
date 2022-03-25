@@ -1,0 +1,21 @@
+{
+    "label": {
+        "name": "Name",
+        "option": {
+            "text": "Option",
+            "r": "Read",
+            "w": "Write"
+        },
+        "columns": "Columns",
+        "column": "column",
+        "p2o": "PARQUET to Object options",
+        "o2p": "Object to PARQUET options",
+        "output": {
+            "text": "Output",
+            "row": "a message per row",
+            "array": "a single message [array]"
+        },
+        "outputPty": "Property"
+    },
+	"category": "parser"
+}

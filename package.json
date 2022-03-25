@@ -1,6 +1,6 @@
 {
     "name": "@msigrupo-develop/node-red-contrib-parquet",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Read and write parquet format files",
     "repository": {
         "type": "git",
@@ -20,8 +20,7 @@
     "node-red": {
         "version": ">=2.0.0",
         "nodes": {
-            "read_parquet": "nodes/read_parquet.js",
-            "write_parquet": "nodes/write_parquet.js"
+            "file_parquet": "nodes/parquet.js"
         }
     },
     "engines": {

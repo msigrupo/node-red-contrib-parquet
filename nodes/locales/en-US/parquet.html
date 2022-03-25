@@ -1,0 +1,56 @@
+<script type="text/html" data-help-name="parquet">
+
+	<p>Converts between a PARQUET string and its JavaScript object representation, in either direction.</p>
+
+	<h3>Read</h3>
+		<dl class="message-properties">
+			<h4>Input</h4>
+				<dl class="message-properties">
+					<dt class="optional">payload <span class="property-type">buffer</span></dt>
+					<dd>A single Buffer object from a parquet file.</dd>
+				</dl>
+			<h4>Output</h4>
+			<dl class="message-properties">
+				<dt class="optional">payload <span class="property-type">array</span></dt>
+				<dd>An array of objects of the columns and their values from the read file. It can be configured as a single message per row or as a sigle message array.</dd>
+			</dl>
+
+			<h4>Details</h4>
+			<dl class="message-properties">
+				<p>The columns to be processed can be configured. If no columns are configured, it will process all of them.</p>
+				<p>Output message property can be configured.</p>
+			</dl>
+		</dl>
+
+	<h3>Write</h3>
+		<dl class="message-properties">
+			<h4>Input</h4>
+				<dl class="message-properties">
+					<dt class="optional">payload <span class="property-type">array</span></dt>
+					<dd>A JavaScript array of objects with the columns and values to parse to parquet.
+						<pre style="font-size:smaller;">
+[
+	{
+		"column1": "val1",
+		"column2": 2,
+	},
+	{
+		"column1": "val3",
+		"column2": 4,
+	}
+]</pre>
+					</dd>
+				</dl>
+
+			<h4>Output</h4>
+			<dl class="message-properties">
+				<dt class="optional">payload <span class="property-type">array</span></dt>
+				<dd>The file content as a single Buffer object.</dd>
+			</dl>
+
+			<h4>Details</h4>
+			<dl class="message-properties">
+				<p>The columns names and types to be processed from the input must be configured.</p>
+			</dl>
+		</dl>
+</script>
